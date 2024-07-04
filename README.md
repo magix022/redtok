@@ -1,4 +1,4 @@
-# NarReddit
+# Redtok
 
 NarReddit is a script that automates the process of converting top-rated Reddit posts into engaging, Subway Surfers-style TikTok narrations. It supports translation into multiple languages, enabling you to transform a single trending Reddit post into multilingual video content, all in an automated fashion!
 
@@ -20,7 +20,7 @@ Setting up NarReddit locally can be a hassle. From the challenge of obtaining a 
 
 ## Setup
 
-Follow these steps to set up NarReddit:
+Follow these steps to set up:
 
 1. Install ffmpeg and make it accessible via the $PATH environment variable. [More information](https://github.com/kkroening/ffmpeg-python#installation)
 
