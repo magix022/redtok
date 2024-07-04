@@ -1,6 +1,7 @@
 import requests
 import json
 from datetime import timedelta
+import string
 
 
 class ForcedAligner:
@@ -35,18 +36,18 @@ class ForcedAligner:
             phraseCharCount = 0
             transcript_index = 0
             #extract tokens from the alignment.transcript 
-            transcript = alignment['transcript'].replace('\r\n\r\n', ' ').split(' ')
+            transcript = alignment['transcript'].replace('-', ' ').split(' ')
 
             print(transcript)
 
-            for word in alignment['words']:
+            for index, word in enumerate(alignment['words']):
                 if word['case'] != 'success':
                     transcript_index += 1
                     continue
-                if transcript[transcript_index] != word['word']:
-                    word['word'] = word['word'] + transcript[transcript_index]
+                if transcript_index+1 < len(transcript) and transcript[transcript_index+1] in string.punctuation:
+                    word['word'] = word['word'] + transcript[transcript_index+1]
                     phrase.append(word)
-                    transcript_index += 1
+                    transcript_index += 2
                     self.writeSrtCue(srtFile, srtIndex, phrase)
                     srtIndex += 1
                     phrase = []
