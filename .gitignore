@@ -168,3 +168,6 @@ tts-audio-files/*.srt
 
 *.db
 *.pkl
+
+*.pickle
+credentials.json
