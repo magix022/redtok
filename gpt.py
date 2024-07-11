@@ -18,6 +18,13 @@ class GPT:
         modified_text = re.sub(pattern, r' \1', text)
         return modified_text
 
+    def add_whitespace_after_punctuation(self, text):
+        # This regular expression matches any punctuation character not followed by a whitespace
+        pattern = r'([.,!?;:])(?!\s)'
+        # Substitutes each match with the match followed by a whitespace
+        modified_text = re.sub(pattern, r'\1 ', text)
+        return modified_text
+
     def getGender(self, text):
         if self.env['DEBUG'].upper() == 'TRUE':
             return "M"
@@ -32,15 +39,18 @@ class GPT:
                 text = file.read()
                 text = self.add_whitespace_before_punctuation(text)
                 return text.replace('\n', '').replace('\r', '')
-        sharedInstructions = "edit it so that the abbreviations/acronyms/contractions are expanded, and correct grammar mistakes/correct for general ease of understanding. A text to speech program will use this as input, so make sure the output will be easily processed by the program. Add additional punctuation if necessary to make the speech flow better. Replace any new lines or tabs with whitespaces so that everything can be split using only whitespace"
+        sharedInstructions = "edit it so that the abbreviations/acronyms/contractions are expanded, and correct grammar mistakes/correct for general ease of understanding. Expand/convert all characters that are not letters, into the equivalent word/letter representation. A text to speech program will use this as input, so make sure the output will be easily processed by the program. Add additional punctuation if necessary to make the speech flow better. Replace any new lines or tabs with whitespaces so that everything can be split using only whitespace. Remove any extra content in the post, like additional edits after the story, links or tldr, just return the title and the main story. Also remove any commas in numbers"
         if language != "english":
             instructions = "Translate the following reddit post to " + \
                 language+", then "+sharedInstructions + \
                 " Then expand/convert all characters that are not letters, into the equivalent word/letter representation in the target language."
         else:
             instructions = "Given the following reddit post, "+sharedInstructions
-        return openai.ChatCompletion.create(model=self.model, messages=[{"role": "system", "content": instructions},
+        res =  openai.ChatCompletion.create(model=self.model, messages=[{"role": "system", "content": instructions},
                                                                         {"role": "user", "content": text}], temperature=0.1).choices[0].message.content
+        res = self.add_whitespace_before_punctuation(res)
+        res = self.add_whitespace_after_punctuation(res)
+        return res
 
     def getSubtitles(self, text):
         if self.env['DEBUG'].upper() == 'TRUE':

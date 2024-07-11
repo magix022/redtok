@@ -7,7 +7,7 @@ class TTS:
         self.env = env
         set_api_key(env['ELEVENLABS_API_KEY'])
         self.voices = voices()
-        self.Paola = self.findVoice(self.voices, "Paola")
+        self.Sarah = self.findVoice(self.voices, "Sarah")
         self.Adam = self.findVoice(self.voices, "Adam")
 
     def findVoice(self, voices, name):
@@ -21,7 +21,7 @@ class TTS:
         if self.env['DEBUG'].upper() == 'TRUE':
             print("DEBUG: Using test audio file")
             return os.path.join('test_files', 'tts-audio-files', 'english.mp3')
-        voice = self.Paola
+        voice = self.Sarah
         if gender == "M":
             voice = self.Adam
         if language == "english":

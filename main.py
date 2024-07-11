@@ -12,21 +12,20 @@ load_dotenv()
 
 print(env['DEBUG'])
 
-def generateVideoFromTopPost(subreddit):
-    scraper = Scraper(env, subreddit)
-    post = scraper.getHotPosts()
-    postTitle = post[0]
-    postTitleAndText = post[1]
-    print("Scraped post: "+postTitleAndText)
+def videoGen(postTitle, postText):
+    postTitleAndText = postTitle + "\n" + postText
 
     languages = env['LANGUAGES'].split(',')
     languages = [lang.lower() for lang in languages]
 
     gpt = GPT(env)
     gender = gpt.getGender(postTitleAndText)
+    print("Gender: " + gender)
 
     for language in languages:
         editedPost = gpt.expandAcronymsAndAbbreviations(postTitleAndText, language)
+
+        print("Edited post: " + editedPost)
 
         tts = TTS(env)
         audioFile = tts.createAudio(editedPost, gender, language)
@@ -36,22 +35,36 @@ def generateVideoFromTopPost(subreddit):
             subtitlesPath = 'tts-audio-files/subtitles.srt'
             forcedAligner = ForcedAligner(
                 env['GENTLE_URL'], env)
-            subtitleText = gpt.getSubtitles(editedPost)
-            forcedAligner.align(audioFile, subtitleText, subtitlesPath)
+            forcedAligner.align(audioFile, editedPost, subtitlesPath)
         else:
             subtitlesPath = None
         videoGen = VideoGenerator(env)
         directory = 'background-videos'
-        outputPath = os.path.join('output', subreddit+'.mp4')
+        fileName = postTitle if len(postTitle) < 50 else postTitle[:100]
+        outputPath = os.path.join('output', fileName.replace(' ', '_') +'.mp4')
         bgVideoFileName = env['BG_VIDEO_FILENAME']
         videoFile = videoGen.generateVideo(
             bgVideoFileName, audioFile, outputPath, directory, subtitlesPath)
         if (videoFile != False):
-            db.insert_post(postTitle)
+            if env['DEBUG'] != "TRUE":
+                db.insert_post(postTitle)
             print("Created output video file at: " + videoFile)
+            return outputPath
         else:
             print("Failed to create output video file")
+    
+
+def generateVideoFromTopPost(subreddit):
+    scraper = Scraper(env, subreddit)
+    post = scraper.getHotPost()
+    postTitle = post[0]
+    postText = post[1]
+    print("Scraped post: "+ postTitle + "\n" + postText)
+
+    path = videoGen(postTitle, postText)
+    return path
 
 
 if __name__ == "__main__":
+    db.create_db()
     generateVideoFromTopPost('AmItheAsshole')

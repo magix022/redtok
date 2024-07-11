@@ -16,11 +16,11 @@ class Scraper:
         self.minPostLength = int(env['MIN_POST_LENGTH'])
         self.maxPostLength = int(env['MAX_POST_LENGTH'])
 
-    def getHotPosts(self):
+    def getHotPost(self):
         for post in self.subreddit.hot():
-            if not post.stickied and post.is_self and (self.minPostLength <= len(post.selftext) <= self.maxPostLength) and len(self.hotPosts) < 2:
+            if not post.stickied and post.is_self and (self.minPostLength <= len(post.selftext) <= self.maxPostLength):
                 if db.findTitle(post.title) is None:
                     self.post = post
                     break
                 
-        return (self.post.title, self.post.title+"\n"+self.post.selftext)
+        return (self.post.title, self.post.selftext)

@@ -165,3 +165,6 @@ tts-audio-files/*.srt
 
 #vscode
 .vscode/
+
+*.db
+*.pkl

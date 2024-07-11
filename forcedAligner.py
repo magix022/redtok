@@ -53,6 +53,20 @@ class ForcedAligner:
                     phrase = []
                     phraseCharCount = 0
                 else:
+                    if word['word'] != transcript[transcript_index]:
+                        found = False
+                        for i in range(1, 4):
+                            if transcript[transcript_index+i] == word['word']:
+                                found = True
+                                transcript_index += i
+                                break
+                        if not found:
+                            for i in range(1, 4):
+                                if transcript[transcript_index-i] == word['word']:
+                                    found = True
+                                    transcript_index -= i
+                                    break
+                        
                     wordLen = len(word['word'])
                     phraseCharCount += wordLen
                     phrase.append(word)
