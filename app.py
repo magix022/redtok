@@ -6,6 +6,7 @@ import main
 import gdrive
 import datetime
 import os
+import time
 
 db.create_db()
 
@@ -42,10 +43,9 @@ def daily_video_generation():
             print(f"An error occurred: {e}")
 
 
-# schedule.every().day.at("12:00").do(daily_video_generation)
+schedule.every().day.at("12:40").do(daily_video_generation)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(60)
+while True:
+    schedule.run_pending()
+    time.sleep(60)
 
-daily_video_generation()
