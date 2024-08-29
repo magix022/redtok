@@ -1,16 +1,18 @@
 # Redtok
 
-Redtok is a script that automates the process of converting top-rated Reddit posts into engaging, Subway Surfers-style TikTok narrations. It supports translation into multiple languages, enabling you to transform a single trending Reddit post into multilingual video content, all in an automated fashion!
+**Note**: This repository is a modified and enhanced version of [NarReddit](https://github.com/SophiaPerzan/NarReddit-Script).
+
+Redtok is a script that automates the process of converting top-rated Reddit posts into engaging, Subway Surfers-style TikTok narrations. It supports running as a service and creating multiple videos a day and upload them to a Google Drive folder for instant access and posting on social media. 
 
 ## Features
 
-- **Content Generation**: NarReddit uses GPT-4 to enhance and translate Reddit posts, enabling the creation of multilingual content.
+- **Content Generation**: Redtok uses GPT-4 to enhance and translate Reddit posts, enabling the creation of multilingual content.
 
 - **Reddit Scraping**: The script scrapes your chosen subreddit to find the highest-rated post.
 
-- **Intelligent Text-to-Speech (TTS) Audio Generation**: NarReddit generates TTS audio from the post, intelligently determining the speaker's gender and adjusting the TTS voice accordingly.
+- **Intelligent Text-to-Speech (TTS) Audio Generation**: Redtok generates TTS audio from the post, intelligently determining the speaker's gender and adjusting the TTS voice accordingly.
 
-- **Subtitles Creation**: NarReddit can also create subtitles for the generated audio.
+- **Subtitles Creation**: Redtok can also create subtitles for the generated audio.
 
 - **Video Overlays**: The script overlays the generated audio and subtitles onto a selected background video, creating a complete, ready-to-upload video.
 
