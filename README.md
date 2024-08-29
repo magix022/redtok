@@ -39,6 +39,9 @@ Follow these steps to set up:
    - **Note**: You can adjust the character limit for posts in the `.env` file. It's advisable to use a limit other than the defaults to avoid exhausting your Elevenlabs API character limit too quickly.
    
    - **Note**: You'll need an API key with access to GPT-4 for this feature. Bear in mind that using GPT-4 may result in higher API costs.
+  
+10. Run the main script!
+   
+   - **Note**: This current version is setup to upload created videos directly to a Google Drive folder, which needs to be set in the .env file, and will require you to create a Google Cloud app. This can be removed from the main script if you only want to store the videos locally.
 
-10. Run the script to start creating engaging video content from top-rated Reddit posts!
-# redtok
+   - **Note**: The main script is meant to be ran as a background service, and will generate one video per specified subreddit in the .env file per day at 1pm (this can be changed inside app.py). Run the script when evertything is ready!
